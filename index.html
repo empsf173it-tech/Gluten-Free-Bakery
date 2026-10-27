@@ -1,0 +1,587 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotspot Bakers | Deliciously Safe, Naturally Made</title>
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Home Specific Styles */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('img/home 1 page header background image.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-buttons {
+                gap: 0.75rem;
+            }
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            color: white;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+@keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .steps-grid-modern {
+            text-align: center;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        @media (min-width: 601px) and (max-width: 1024px) {
+            .steps-grid-modern {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+                gap: 1.5rem !important;
+            }
+
+            .steps-grid-modern > * {
+                width: calc(50% - 0.75rem) !important;
+                flex: 0 0 auto !important;
+            }
+        }
+
+/* Pure Ingredients Image Alignment */
+        .pure-ingredients-home .card {
+            padding-top: 0;
+            padding-left: 0;
+            padding-right: 0;
+            overflow: hidden;
+        }
+
+        .pure-ingredients-home .card-img-wrap {
+            width: 100%;
+            height: 250px;
+            margin-bottom: 1.5rem;
+        }
+
+        .pure-ingredients-home .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0;
+            margin: 0;
+        }
+
+        .pure-ingredients-home .card-body {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        /* How It Works Image Alignment */
+        .section-how-it-works .step-card {
+            padding: 0 !important;
+            overflow: hidden;
+        }
+
+        .section-how-it-works .step-card-icon-wrap {
+            margin-bottom: 1.5rem !important;
+            height: 220px !important;
+            border-radius: 0 !important;
+            overflow: hidden;
+        }
+
+        .section-how-it-works .step-card-icon-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .section-how-it-works .step-card h3,
+        .section-how-it-works .step-card p {
+            padding: 0 1.5rem;
+        }
+
+        .section-how-it-works .step-card p {
+            padding-bottom: 1.5rem;
+        }
+
+        /* Blog Preview Image Alignment */
+        .img-text-row {
+            padding: 0 !important;
+            overflow: hidden;
+        }
+
+        .img-text-row .img-col {
+            width: 100%;
+            height: 220px;
+        }
+
+        .img-text-row .img-col img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover;
+            border-radius: 0;
+            margin: 0;
+        }
+
+        .img-text-row .card-body {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        /* New Promise Section Styles */
+        .promise-section {
+            background-color: var(--accent) !important;
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .promise-grid {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .promise-card {
+            background: var(--bg-card);
+            padding: 0 !important;
+            /* Remove padding for edge-to-edge image */
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            /* Left align for content container logic */
+            text-align: center;
+        }
+
+        .promise-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+            z-index: 2;
+        }
+
+        .promise-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .promise-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .promise-img-wrap {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+
+        .promise-img-wrap img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            /* Forces image to fill without gaps */
+            border-radius: 0;
+            margin: 0;
+            display: block;
+        }
+
+        .promise-content {
+            padding: 2rem 1.5rem 2.5rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .promise-card h3 {
+            font-size: 1.5rem !important;
+            margin-bottom: 1rem !important;
+            color: var(--primary) !important;
+            text-align: center !important;
+        }
+
+        .promise-card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 1024px) and (min-width: 601px) {
+            .promise-grid {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+                gap: 1.5rem !important;
+            }
+
+            .promise-grid > * {
+                width: calc(50% - 0.75rem) !important;
+                flex: 0 0 auto !important;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .promise-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 0 1rem;
+            }
+
+            .promise-card {
+                padding: 0 !important;
+            }
+        }
+
+        /* Pure Ingredients 1024px Fix */
+        @media only screen and (min-width: 1024px) and (max-width: 1024px) {
+            .pure-ingredients-home .grid-4 {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            .pure-ingredients-home .card {
+                display: flex !important;
+                flex-direction: column !important;
+                height: 100% !important;
+            }
+
+            .pure-ingredients-home .card-body {
+                display: flex !important;
+                flex-direction: column !important;
+                flex: 1 !important;
+            }
+
+            .pure-ingredients-home .card-body .btn {
+                margin-top: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container nav-container">
+            <div class="mobile-nav-container">
+                <a href="index.html" class="logo"><i class="fas fa-bread-slice"></i> Hotspot Bakers</a>
+                <button class="navbar-toggler" type="button" id="mobileMenuToggle" title="Open menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <nav>
+                <ul class="nav-links" id="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="home-premium.html">Premium</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions">
+                <button type="button" class="toggle-btn cart-btn" title="View Cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge">0</span>
+                </button>
+                <a href="login.html" class="btn btn-outline">Login</a>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+            <div class="mobile-menu-header">
+                <h3>Menu</h3>
+                <button type="button" class="mobile-menu-close" id="mobileMenuClose" title="Close Menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <ul class="mobile-menu-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="home-premium.html">Premium</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+
+            <div class="mobile-menu-actions">
+                <a href="cart.html" class="btn btn-primary">Cart</a>
+                <a href="login.html" class="btn btn-outline">Login</a>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Backdrop -->
+        <div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-content">
+                <h1>Deliciously Safe, Naturally Made</h1>
+                <p>Enjoy gluten-free and vegan treats crafted with love and care.</p>
+                <div class="hero-buttons">
+                    <a href="menu.html" class="btn btn-primary">Order Now</a>
+                    <a href="menu.html" class="btn btn-outline" style="border-color: white; color: white;">Explore
+                        Menu</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="container section pure-ingredients-home">
+            <h2> Pure Ingredients</h2>
+            <div class="grid grid-4">
+                <div class="card reveal">
+                    <div class="card-img-wrap">
+                        <img src="img/WhatsApp Image 2026-04-10 at 3.21.17 PM.jpeg" alt="Gluten-Free Cake">
+                    </div>
+                    <div class="card-body">
+                        <h3>Gluten-Free Cakes</h3>
+                        <p>Moist, rich, and completely safe for gluten-sensitive lovers.</p>
+                        <a href="menu.html" class="btn btn-primary" style="width: 100%;">View More</a>
+                    </div>
+                </div>
+                <div class="card reveal">
+                    <div class="card-img-wrap">
+                        <img src="img/Vegan Cookies.png" alt="Vegan Cookie">
+                    </div>
+                    <div class="card-body">
+                        <h3>Vegan Cookies</h3>
+                        <p>Plant-based goodness that melts in your mouth.</p>
+                        <a href="menu.html" class="btn btn-primary" style="width: 100%;">View More</a>
+                    </div>
+                </div>
+                <div class="card reveal">
+                    <div class="card-img-wrap">
+                        <img src="img/WhatsApp Image 2026-04-10 at 3.21.19 PM.jpeg" alt="Dairy-Free Dessert">
+                    </div>
+                    <div class="card-body">
+                        <h3>Dairy-Free Desserts</h3>
+                        <p>Creamy and delicious without a drop of dairy.</p>
+                        <a href="menu.html" class="btn btn-primary" style="width: 100%;">View More</a>
+                    </div>
+                </div>
+                <div class="card reveal">
+                    <div class="card-img-wrap">
+                        <img src="img/WhatsApp Image 2026-04-10 at 3.21.20 PM.jpeg" alt="Healthy Bread">
+                    </div>
+                    <div class="card-body">
+                        <h3>Healthy Breads</h3>
+                        <p>Freshly baked artisanal breads with zero allergens.</p>
+                        <a href="menu.html" class="btn btn-primary" style="width: 100%;">View More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-how-it-works" style="background: var(--bg-card);">
+            <div class="container">
+                <h2> How It Works</h2>
+                <div class="steps-grid-modern">
+                    <div class="step-card step-card-visual reveal">
+                        <div class="step-card-icon-wrap">
+                            <img src="img/Choose Ingredients.png" alt="Choosing fresh ingredients" loading="lazy">
+                        </div>
+                        <h3>Choose Ingredients</h3>
+                        <p>We source clean, transparent ingredients you can trust for every bake.</p>
+                    </div>
+                    <div class="step-card step-card-visual reveal">
+                        <div class="step-card-icon-wrap">
+                            <img src="img/Bake_with_Care.png" alt="Baking with Care" loading="lazy">
+                        </div>
+                        <h3>Bake with Care</h3>
+                        <p>Dedicated equipment and timed batches keep flavors bold and allergens out.</p>
+                    </div>
+                    <div class="step-card step-card-visual reveal">
+                        <div class="step-card-icon-wrap">
+                            <img src="img/Delivered Fresh.png" alt="Fresh delivery at your door" loading="lazy">
+                        </div>
+                        <h3>Delivered Fresh</h3>
+                        <p>Packed safely and brought to your door—ready to enjoy.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="promise-section">
+            <div class="container">
+                <span
+                    style="color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 1rem;">Why
+                    Choose Us</span>
+                <h2 style="margin-bottom: 1rem;">The Hotspot Bakers Promise</h2>
+                <p style="max-width: 600px; margin: 0 auto 3rem; color: var(--text-muted);">We believe everyone deserves
+                    a seat at the table. Here’s how we ensure every bite is safe, delicious, and uncompromisingly
+                    high-quality.</p>
+
+                <div class="promise-grid">
+                    <div class="promise-card reveal">
+                        <div class="promise-img-wrap">
+                            <img src="img/Isolated Production.png" alt="Isolated Production">
+                        </div>
+                        <div class="promise-content">
+                            <h3>100% Dedicated Facility</h3>
+                            <p>Zero risk of cross-contamination. Our bakery is strictly gluten-free and dairy-free,
+                                ensuring total peace of mind for severe allergies.</p>
+                        </div>
+                    </div>
+
+                    <div class="promise-card reveal">
+                        <div class="promise-img-wrap">
+                            <img src="img/Choose Ingredients.png" alt="Premium Ingredients">
+                        </div>
+                        <div class="promise-content">
+                            <h3>Clean-Label Ingredients</h3>
+                            <p>We source only non-GMO, organic, and whole-food ingredients. No artificial colors,
+                                preservatives, or hidden fillers—just pure goodness.</p>
+                        </div>
+                    </div>
+
+                    <div class="promise-card reveal">
+                        <div class="promise-img-wrap">
+                            <img src="img/Master Craftsmen.png" alt="Artisan Quality">
+                        </div>
+                        <div class="promise-content">
+                            <h3>Artisan Craftsmanship</h3>
+                            <p>Every product is handcrafted in small batches by masters of allergy-friendly baking to
+                                ensure artisanal texture and rich, authentic flavor.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container section">
+            <h2> Blog / Recipes Preview</h2>
+            <div class="grid grid-2">
+                <div class="card reveal img-text-row">
+                    <div class="img-col"><img src="img/WhatsApp Image 2026-04-10 at 3.22.24 PM.jpeg" alt="GF Brownies">
+                    </div>
+                    <div class="card-body text-col">
+                        <span style="color: var(--secondary); font-weight: 700;">RECIPE</span>
+                        <h3>5-Ingredient GF Brownies</h3>
+                        <p>Learn how to make our famous fudgy brownies at home with just a few simple items.</p>
+                        <a href="#" style="color: var(--primary); font-weight: 700; text-decoration: none;">Read More
+                            &rarr;</a>
+                    </div>
+                </div>
+                <div class="card reveal img-text-row">
+                    <div class="img-col"><img src="img/WhatsApp Image 2026-04-10 at 3.22.26 PM.jpeg"
+                            alt="Allergy-Free Tips"></div>
+                    <div class="card-body text-col">
+                        <span style="color: var(--secondary); font-weight: 700;">HEALTH TIPS</span>
+                        <h3>Living Allergy-Free</h3>
+                        <p>Top 10 tips for navigating the grocery store when you have multiple food allergies.</p>
+                        <a href="#" style="color: var(--primary); font-weight: 700; text-decoration: none;">Read More
+                            &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="background: var(--accent);">
+            <div class="container" style="text-align: center;">
+                <h2> Order your healthy treats today</h2>
+                <p style="margin-bottom: 2rem;">Safe, delicious, and delivered right to you.</p>
+                <a href="menu.html" class="btn btn-primary btn-lg">Order Now</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-col-brand">
+                    <a href="index.html" class="footer-logo">
+                        <i class="fas fa-bread-slice"></i> Hotspot Bakers
+                    </a>
+                    <p>Bringing you the finest allergy-friendly, gluten-free, and vegan treats. Baked with love and
+                        safety in mind.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <p>123 Bakery Lane, London<br>Phone: +44 20 1234 5678<br>Email: hello@hotspotbakers.com</p>
+                </div>
+                <div class="footer-col footer-follow-block">
+                    <h4>Follow Us</h4>
+                    <div class="footer-social">
+                        <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 Hotspot Bakers. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

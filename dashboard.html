@@ -1,0 +1,1185 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Hotspot Bakers</title>
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            background: var(--bg-main);
+            padding-top: 0 !important;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.5rem;
+        }
+
+        .sidebar-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sidebar-logo i {
+            color: var(--secondary);
+        }
+
+        .sidebar-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--accent);
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .profile-name {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .profile-role {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            flex: 1;
+        }
+
+        .sidebar-nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1rem;
+            text-decoration: none;
+            color: var(--text-muted);
+            border-radius: var(--radius);
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .sidebar-nav-link:hover,
+        .sidebar-nav-link.active {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .logout-link {
+            color: #ef4444;
+            margin-top: auto;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 3rem 2rem;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            position: sticky;
+            top: 0;
+            background: var(--bg-main);
+            z-index: 1000;
+            padding: 1.5rem 0 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .top-bar-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            position: relative;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar-title {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: left !important;
+            width: auto;
+        }
+
+        .top-bar-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-inline-start: auto;
+        }
+
+        .action-icon {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+        }
+
+        .action-icon:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 5px;
+            border-radius: 20px;
+            line-height: 1;
+            border: 2px solid var(--bg-card);
+        }
+
+        /* Content Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            text-align: center;
+        }
+
+        .stat-card h4 {
+            text-align: center;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        /* Tables & Lists */
+        .section-title.has-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title h3 {
+            text-align: center;
+            margin: 0;
+        }
+
+        .section-title.has-action h3 {
+            text-align: start;
+        }
+
+        .view-all-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .view-all-link:hover {
+            color: var(--primary-light);
+            text-decoration: underline;
+            transform: translateX(3px);
+            opacity: 0.8;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: var(--radius);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .data-table th,
+        .data-table td {
+            text-align: center;
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .data-table th {
+            background: var(--bg-main);
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        /* Mobile order cards */
+        .mobile-order-cards {
+            display: none;
+        }
+
+        .mobile-order-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0.5rem;
+        }
+
+        .mobile-order-card .order-id {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .mobile-order-card .order-meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .mobile-order-card .order-items {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .mobile-order-card .order-total {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .status-pill {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-delivered {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-pending {
+            background: #fef9c3;
+            color: #854d0e;
+        }
+
+        .dashboard-sidebar-backdrop {
+            display: none;
+        }
+
+        .dashboard-sidebar-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--accent);
+            color: var(--primary);
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.4rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .dashboard-sidebar-toggle:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(124, 62, 45, 0.2);
+        }
+
+        .dashboard-sidebar-close {
+            display: none;
+            position: absolute;
+            top: 1.25rem;
+            inset-inline-end: 1rem;
+            z-index: 2;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-main);
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        .dashboard-sidebar-close:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .sidebar {
+            position: relative;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-sidebar-backdrop {
+                display: block;
+                position: fixed;
+                inset: 0;
+                z-index: 1001;
+                background: rgba(0, 0, 0, 0.45);
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+
+            .dashboard-sidebar-backdrop.is-active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .dashboard-sidebar-toggle {
+                display: inline-flex;
+            }
+
+            .dashboard-sidebar-close {
+                display: inline-flex;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                inset-inline-start: 0;
+                width: min(280px, 88vw);
+                max-width: 300px;
+                height: 100vh;
+                height: 100dvh;
+                z-index: 1002;
+                margin: 0;
+                padding: 2rem 1.25rem;
+                padding-top: 3.5rem;
+                box-shadow: var(--shadow-lg);
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                overflow-y: auto;
+                text-align: center;
+            }
+
+            .sidebar-logo {
+                justify-content: center !important;
+                font-size: 1.75rem !important; /* Consistent with header logo */
+            }
+
+            .sidebar.is-open {
+                transform: translateX(0);
+            }
+
+            body.dashboard-sidebar-open {
+                overflow: hidden;
+            }
+
+            .main-content {
+                padding: 0 1rem 1.25rem;
+                width: 100%;
+            }
+
+            .top-bar {
+                padding: 1rem 0 0.75rem;
+                margin-bottom: 1rem;
+            }
+
+            .top-bar-left {
+                width: 100% !important;
+                justify-content: flex-start !important;
+                position: relative !important;
+                gap: 0 !important;
+            }
+
+            .dashboard-sidebar-toggle {
+                position: absolute !important;
+                inset-inline-start: 0 !important;
+                top: 50% !important;
+                transform: translateY(-50%) !important;
+                display: inline-flex;
+            }
+
+            .top-bar-title {
+                font-size: 1.1rem !important;
+                margin: 0;
+                text-align: left !important;
+                padding-inline: 65px 105px; /* Prevent overlap with toggle and icons (start/end) */
+                white-space: nowrap;
+            }
+
+            .top-bar-actions {
+                display: flex !important;
+                position: absolute !important;
+                inset-inline-end: 0 !important;
+                top: 50% !important;
+                transform: translateY(-50%) !important;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.75rem;
+            }
+
+            @media (max-width: 380px) {
+                .main-content {
+                    padding: 0 0.5rem 1.25rem;
+                }
+                .stats-grid {
+                    grid-template-columns: 1fr;
+                }
+                .top-bar-left {
+                    gap: 0.5rem;
+                }
+                .top-bar-title {
+                    font-size: 0.95rem !important; 
+                    padding-inline: 45px 95px;
+                    white-space: nowrap;
+                    line-height: 1.2;
+                }
+                .top-bar-actions {
+                    gap: 6px;
+                }
+                .action-icon {
+                    width: 26px;
+                    height: 26px;
+                    font-size: 0.95rem;
+                }
+                .dashboard-sidebar-toggle {
+                    width: 36px;
+                    height: 36px;
+                    font-size: 1rem;
+                    border-radius: 8px;
+                }
+            }
+
+            @media (max-width: 320px) {
+                .main-content {
+                    padding: 0 0.35rem 1.25rem;
+                }
+                .top-bar-left {
+                    gap: 0.35rem;
+                }
+                .top-bar-title {
+                    font-size: 0.85rem !important;
+                    padding-inline: 40px 95px;
+                    white-space: nowrap;
+                }
+                .top-bar-actions {
+                    gap: 4px;
+                }
+                .action-icon {
+                    width: 24px;
+                    height: 24px;
+                    font-size: 0.85rem;
+                }
+                .dashboard-sidebar-toggle {
+                    width: 32px;
+                    height: 32px;
+                    font-size: 0.9rem;
+                }
+            }
+
+            .stats-grid .card-body {
+                padding: 1rem 0.5rem;
+            }
+
+            .stats-grid .card-body h4 {
+                font-size: 0.8rem;
+            }
+
+            .stats-grid .card-body .value {
+                font-size: 1.5rem !important;
+            }
+
+            .data-table th,
+            .data-table td {
+                text-align: center !important;
+            }
+
+            /* Switch to horizontal scroll layout on mobile/tablet for activity & orders */
+            .table-wrapper .data-table {
+                display: none;
+            }
+
+            #overview .table-wrapper .data-table,
+            #orders .table-wrapper .data-table {
+                display: table;
+            }
+
+            #overview .mobile-order-cards,
+            #orders .mobile-order-cards {
+                display: none !important;
+            }
+
+            .mobile-order-cards {
+                display: flex;
+                overflow-x: auto;
+                gap: 1rem;
+                padding: 0.5rem 0.25rem 1.25rem;
+                margin: 0 -0.25rem;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            .mobile-order-cards::-webkit-scrollbar {
+                display: none;
+            }
+
+            .mobile-order-card {
+                flex: 0 0 280px;
+                margin-bottom: 0;
+            }
+
+            .section-title {
+                margin-bottom: 1.5rem !important;
+            }
+
+            .address-card .btn-wrapper {
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: nowrap !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 1rem !important;
+                width: 100% !important;
+            }
+
+            .address-card .btn-wrapper a {
+                white-space: nowrap !important;
+                flex-shrink: 0 !important;
+            }
+
+            .address-grid .address-card p,
+            .address-grid .address-card h4 {
+                text-align: center !important;
+            }
+
+            .address-grid .address-card {
+                text-align: center !important;
+            }
+
+            .section-title.has-action {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                width: 100% !important;
+                padding: 0 !important;
+            }
+
+            .section-title.has-action h3 {
+                text-align: start !important;
+                margin: 0 !important;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .top-bar-title {
+                text-align: center;
+            }
+        }
+
+        /* Address Section Polish */
+        .address-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .address-card {
+            width: 100%;
+            max-width: 350px;
+            min-height: 280px;
+        }
+
+        .address-card.is-default {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(124, 62, 45, 0.08);
+        }
+
+        .address-tag-container {
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .tag-gf {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        /* Favorites Centering */
+        #favorites .grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        #favorites .card {
+            width: 100%;
+            max-width: 340px;
+        }
+
+        /* Target 1024px and 768px specifically for centered alignments */
+        @media screen and (min-width: 1024px) and (max-width: 1024px),
+        screen and (min-width: 768px) and (max-width: 768px) {
+            #favorites .grid {
+                display: grid !important;
+                grid-template-columns: repeat(2, 1fr) !important;
+                justify-content: center !important;
+                gap: 1.5rem !important;
+                width: 100% !important;
+                max-width: 800px !important;
+                margin: 0 auto !important;
+            }
+
+            #favorites .card {
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+            }
+
+            /* Target specifically for orders and activity alignment */
+            .mobile-order-cards {
+                overflow-x: auto !important;
+                justify-content: flex-start !important;
+                margin: 0 !important;
+                padding: 1.25rem 0.5rem !important;
+                display: flex !important;
+                flex-wrap: nowrap !important;
+            }
+
+            .mobile-order-card {
+                flex: 0 0 280px !important;
+                margin: 0 0.5rem !important;
+                padding: 2.5rem 1.5rem !important;
+                gap: 0.75rem !important;
+            }
+        }
+
+        .address-card .btn-wrapper a {
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .address-card .btn-wrapper a:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+
+        .address-card .btn-wrapper a i {
+            transition: transform 0.3s ease;
+        }
+
+        .address-card .btn-wrapper a:hover i {
+            transform: scale(1.2);
+        }
+
+        /* Settings Section Gap all views */
+        #settings .section-title {
+            margin-bottom: 2rem !important;
+            max-width: 600px;
+            margin-inline: auto;
+        }
+
+        /* Settings Section Title Alignment for Mobile & Tablet */
+        @media screen and (max-width: 1024px) {
+            #settings .section-title {
+                justify-content: flex-start !important;
+            }
+            #settings .section-title h3 {
+                text-align: left !important;
+            }
+        }
+
+        /* Settings Section Alignments for 1024px and Desktop */
+        @media screen and (min-width: 1024px) {
+            #settings .form-group label {
+                text-align: left !important;
+            }
+            #settings .form-group input {
+                text-align: left !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="dashboard-page">
+
+    <div class="dashboard-sidebar-backdrop" id="dashboardSidebarBackdrop" aria-hidden="true"></div>
+
+    <aside class="sidebar" id="dashboardSidebar" aria-label="Dashboard navigation">
+        <button type="button" class="dashboard-sidebar-close" id="dashboardSidebarClose" title="Close menu"
+            aria-label="Close menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="index.html" class="sidebar-logo">
+            <span><i class="fas fa-bread-slice"></i> Hotspot Bakers</span>
+        </a>
+
+        <div class="sidebar-profile">
+            <div class="profile-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="profile-info">
+                <span class="profile-name">Sarah Miller</span>
+                <span class="profile-role">Premium Member</span>
+            </div>
+        </div>
+
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link active" data-tab="overview">
+                    <i class="fas fa-th-large"></i> <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link" data-tab="orders">
+                    <i class="fas fa-shopping-bag"></i> <span>Orders</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link" data-tab="favorites">
+                    <i class="fas fa-heart"></i> <span>Favorites</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link" data-tab="subscriptions">
+                    <i class="fas fa-calendar-check"></i> <span>Subscriptions</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link" data-tab="addresses">
+                    <i class="fas fa-map-marker-alt"></i> <span>Addresses</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link" data-tab="settings">
+                    <i class="fas fa-cog"></i> <span>Settings</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item" style="margin-top: auto;">
+                <a href="index.html" class="sidebar-nav-link logout-link" title="Logout of your account">
+                    <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <div class="top-bar-row">
+                <div class="top-bar-left">
+                    <button type="button" class="dashboard-sidebar-toggle" id="dashboardSidebarToggle" title="Open menu"
+                        aria-label="Open menu" aria-expanded="false" aria-controls="dashboardSidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="top-bar-title">Welcome back!</h1>
+                </div>
+                <div class="top-bar-actions">
+                    <div class="action-icon" title="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="action-icon" title="Profile">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Overview Section -->
+        <section id="overview" class="dashboard-section active">
+            <div class="stats-grid">
+                <div class="card reveal">
+                    <div class="card-body" style="text-align: center; align-items: center;">
+                        <h4 style="text-align: center;">Total Orders</h4>
+                        <div class="value"
+                            style="font-size: 2rem; font-weight: 700; color: var(--primary); text-align: center;">24
+                        </div>
+                    </div>
+                </div>
+                <div class="card reveal">
+                    <div class="card-body" style="text-align: center; align-items: center;">
+                        <h4 style="text-align: center;">Active Subscriptions</h4>
+                        <div class="value"
+                            style="font-size: 2rem; font-weight: 700; color: var(--primary); text-align: center;">2
+                        </div>
+                    </div>
+                </div>
+                <div class="card reveal">
+                    <div class="card-body" style="text-align: center; align-items: center;">
+                        <h4 style="text-align: center;">Pending Deliveries</h4>
+                        <div class="value"
+                            style="font-size: 2rem; font-weight: 700; color: var(--primary); text-align: center;">1
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem;">
+                <div class="section-title has-action">
+                    <h3>Recent activity</h3>
+                    <a href="#" class="view-all-link">View All</a>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Date</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#SB-1024</td>
+                                <td>Oct 10, 2026</td>
+                                <td>6x GF Muffins</td>
+                                <td>$24.00</td>
+                                <td><span class="status-pill status-delivered">Delivered</span></td>
+                            </tr>
+                            <tr>
+                                <td>#SB-1023</td>
+                                <td>Oct 05, 2026</td>
+                                <td>1x Vegan Bread</td>
+                                <td>$12.00</td>
+                                <td><span class="status-pill status-delivered">Delivered</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile card layout -->
+                <div class="mobile-order-cards">
+                    <div class="mobile-order-card">
+                        <div class="order-id">#SB-1024</div>
+                        <div class="order-meta">Oct 10, 2026</div>
+                        <div class="order-items">6x GF Muffins</div>
+                        <div class="order-total">$24.00</div>
+                        <span class="status-pill status-delivered">Delivered</span>
+                    </div>
+                    <div class="mobile-order-card">
+                        <div class="order-id">#SB-1023</div>
+                        <div class="order-meta">Oct 05, 2026</div>
+                        <div class="order-items">1x Vegan Bread</div>
+                        <div class="order-total">$12.00</div>
+                        <span class="status-pill status-delivered">Delivered</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Orders Section -->
+        <section id="orders" class="dashboard-section">
+            <div class="section-title">
+                <h3>Your Orders</h3>
+            </div>
+
+            <!-- Desktop table -->
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#SB-1025</td>
+                            <td>Oct 12, 2026</td>
+                            <td>4x Cupcakes</td>
+                            <td>$18.50</td>
+                            <td><span class="status-pill status-pending">Pending</span></td>
+                            <td><button type="button" class="btn btn-outline btn-sm"
+                                    title="Track this order">Track</button></td>
+                        </tr>
+                        <tr>
+                            <td>#SB-1024</td>
+                            <td>Oct 10, 2026</td>
+                            <td>6x GF Muffins</td>
+                            <td>$24.00</td>
+                            <td><span class="status-pill status-delivered">Delivered</span></td>
+                            <td><button class="btn btn-outline btn-sm">Reorder</button></td>
+                        </tr>
+                        <tr>
+                            <td>#SB-1023</td>
+                            <td>Oct 05, 2026</td>
+                            <td>1x Vegan Bread</td>
+                            <td>$12.00</td>
+                            <td><span class="status-pill status-delivered">Delivered</span></td>
+                            <td><button class="btn btn-outline btn-sm">Reorder</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile card layout -->
+            <div class="mobile-order-cards">
+                <div class="mobile-order-card">
+                    <div class="order-id">#SB-1025</div>
+                    <div class="order-meta">Oct 12, 2026</div>
+                    <div class="order-items">4x Cupcakes</div>
+                    <div class="order-total">$18.50</div>
+                    <span class="status-pill status-pending">Pending</span>
+                    <button type="button" class="btn btn-outline btn-sm" style="margin-top: 0.5rem;"
+                        title="Track this order">Track</button>
+                </div>
+                <div class="mobile-order-card">
+                    <div class="order-id">#SB-1024</div>
+                    <div class="order-meta">Oct 10, 2026</div>
+                    <div class="order-items">6x GF Muffins</div>
+                    <div class="order-total">$24.00</div>
+                    <span class="status-pill status-delivered">Delivered</span>
+                    <button class="btn btn-outline btn-sm" style="margin-top: 0.5rem;">Reorder</button>
+                </div>
+                <div class="mobile-order-card">
+                    <div class="order-id">#SB-1023</div>
+                    <div class="order-meta">Oct 05, 2026</div>
+                    <div class="order-items">1x Vegan Bread</div>
+                    <div class="order-total">$12.00</div>
+                    <span class="status-pill status-delivered">Delivered</span>
+                    <button class="btn btn-outline btn-sm" style="margin-top: 0.5rem;">Reorder</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Favorites Section -->
+        <section id="favorites" class="dashboard-section">
+            <div class="section-title">
+                <h3>Saved Favorites</h3>
+            </div>
+            <div class="grid grid-3">
+                <div class="card reveal">
+                    <img src="img/WhatsApp Image 2026-04-10 at 3.21.17 PM.jpeg" alt="Item">
+                    <div class="card-body">
+                        <h3>Blueberry Muffin</h3>
+                        <div class="price" style="margin-bottom: 1rem;">$4.50</div>
+                        <button type="button" class="btn btn-primary" style="width: 100%;"
+                            title="Add Blueberry Muffin to cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="card reveal">
+                    <img src="img/Triple Choc Cookies.png" alt="Item">
+                    <div class="card-body">
+                        <h3>Triple Choc Cookie</h3>
+                        <div class="price" style="margin-bottom: 1rem;">$3.25</div>
+                        <button type="button" class="btn btn-primary" style="width: 100%;"
+                            title="Add Triple Choc Cookie to cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subscriptions Section -->
+        <section id="subscriptions" class="dashboard-section">
+            <div class="section-title">
+                <h3>Active Subscriptions</h3>
+            </div>
+            <div class="sub-status-card"
+                style="text-align: center; align-items: center; justify-content: center; flex-direction: column;">
+                <div class="sub-status-info" style="text-align: center;">
+                    <h4 style="text-align: center;">Current Plan</h4>
+                    <div class="plan-name" style="text-align: center;">Premium Baker's Box</div>
+                    <p style="text-align: center;">Next delivery: Oct 25, 2026</p>
+                </div>
+                <div class="sub-status-actions" style="display: flex; justify-content: center; margin-top: 1rem;">
+                    <button type="button" class="btn btn-secondary" style="white-space: nowrap;"
+                        title="Manage your subscription plan">Manage Plan</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Addresses Section -->
+        <section id="addresses" class="dashboard-section">
+            <div class="section-title has-action address-section-head">
+                <h3>Delivery Addresses</h3>
+                <div class="btn-wrapper" style="margin: 0;">
+                    <button type="button" class="btn btn-primary btn-sm" title="Add a new delivery address"><i
+                            class="fas fa-plus"></i> Add New</button>
+                </div>
+            </div>
+            <div class="address-grid">
+                <div class="card reveal address-card is-default">
+                    <div class="card-body" style="align-items: center; text-align: center;">
+                        <div class="address-tag-container">
+                            <span class="tag tag-gf">Default</span>
+                        </div>
+                        <h4 style="text-align: center; margin-bottom: 0.75rem;">Home</h4>
+                        <p style="text-align: center;">123 Healthy Street, Flat 4B<br>London, UK<br>NW1 8PT</p>
+                        <div class="btn-wrapper" style="gap: 1rem; margin-top: auto; justify-content: center;">
+                            <a href="#" style="color: var(--primary); text-decoration: none;"><i
+                                    class="fas fa-edit"></i> Edit</a>
+                            <a href="#" style="color: #ef4444; text-decoration: none;"><i class="fas fa-trash"></i>
+                                Delete</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card reveal address-card">
+                    <div class="card-body" style="align-items: center; text-align: center;">
+                        <div class="address-tag-container">
+                            <!-- Placeholder for alignment -->
+                        </div>
+                        <h4 style="text-align: center; margin-bottom: 0.75rem;">Office</h4>
+                        <p style="text-align: center;">45 Bakery Towers, Level 12<br>London, UK<br>EC1A 1BB</p>
+                        <div class="btn-wrapper" style="gap: 1rem; margin-top: auto; justify-content: center;">
+                            <a href="#" style="color: var(--primary); text-decoration: none;"><i
+                                    class="fas fa-edit"></i> Edit</a>
+                            <a href="#" style="color: #ef4444; text-decoration: none;"><i class="fas fa-trash"></i>
+                                Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings" class="dashboard-section">
+            <div class="section-title" style="justify-content: center;">
+                <h3 style="text-align: center;">Profile Settings</h3>
+            </div>
+            <div class="settings-form" style="max-width: 600px; margin: 0 auto;">
+                <form>
+                    <div class="settings-grid">
+                        <div class="form-group" style="text-align: center;">
+                            <label for="first_name" style="display: block; text-align: center;">First Name</label>
+                            <input type="text" id="first_name" placeholder="Your first name" autocomplete="given-name"
+                                style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-main); color: var(--text-main); text-align: center;">
+                        </div>
+                        <div class="form-group" style="text-align: center;">
+                            <label for="last_name" style="display: block; text-align: center;">Last Name</label>
+                            <input type="text" id="last_name" placeholder="Your last name" autocomplete="family-name"
+                                style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-main); color: var(--text-main); text-align: center;">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1.5rem; text-align: center;">
+                        <label for="profile_email" style="display: block; text-align: center;">Email Address</label>
+                        <input type="email" id="profile_email" placeholder="Your email address" autocomplete="email"
+                            style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-main); color: var(--text-main); text-align: center;">
+                    </div>
+                    <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
+                    <div class="btn-wrapper settings-actions"
+                        style="display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center;">
+                        <button type="submit" class="btn btn-primary" title="Save profile changes">Save Changes</button>
+                        <button type="button" class="btn btn-outline" title="Change your password">Change
+                            Password</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
